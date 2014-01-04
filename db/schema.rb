@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131102013962) do
+ActiveRecord::Schema.define(version: 20140104103160) do
 
   create_table "spree_activators", force: true do |t|
     t.string   "description"
@@ -63,9 +63,12 @@ ActiveRecord::Schema.define(version: 20131102013962) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "state"
+    t.integer  "order_id"
+    t.boolean  "included",                                 default: false
   end
 
   add_index "spree_adjustments", ["adjustable_id"], name: "index_adjustments_on_order_id"
+  add_index "spree_adjustments", ["order_id"], name: "index_spree_adjustments_on_order_id"
 
   create_table "spree_assets", force: true do |t|
     t.integer  "viewable_id"
@@ -207,10 +210,10 @@ ActiveRecord::Schema.define(version: 20131102013962) do
 
   create_table "spree_orders", force: true do |t|
     t.string   "number",               limit: 32
-    t.decimal  "item_total",                      precision: 10, scale: 2, default: 0.0, null: false
-    t.decimal  "total",                           precision: 10, scale: 2, default: 0.0, null: false
+    t.decimal  "item_total",                      precision: 10, scale: 2, default: 0.0,     null: false
+    t.decimal  "total",                           precision: 10, scale: 2, default: 0.0,     null: false
     t.string   "state"
-    t.decimal  "adjustment_total",                precision: 10, scale: 2, default: 0.0, null: false
+    t.decimal  "adjustment_total",                precision: 10, scale: 2, default: 0.0,     null: false
     t.integer  "user_id"
     t.datetime "completed_at"
     t.integer  "bill_address_id"
@@ -226,6 +229,8 @@ ActiveRecord::Schema.define(version: 20131102013962) do
     t.string   "currency"
     t.string   "last_ip_address"
     t.integer  "created_by_id"
+    t.string   "channel",                                                  default: "spree"
+    t.decimal  "tax_total",                       precision: 10, scale: 2, default: 0.0,     null: false
   end
 
   add_index "spree_orders", ["completed_at"], name: "index_spree_orders_on_completed_at"
@@ -639,6 +644,7 @@ ActiveRecord::Schema.define(version: 20131102013962) do
   end
 
   add_index "spree_users", ["email"], name: "email_idx_unique", unique: true
+  add_index "spree_users", ["spree_api_key"], name: "index_spree_users_on_spree_api_key"
 
   create_table "spree_variants", force: true do |t|
     t.string   "sku",                                   default: "",    null: false
