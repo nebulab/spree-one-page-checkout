@@ -1,0 +1,20 @@
+<div class="columns <%= if state != 'confirm' then 'alpha twelve' else 'alpha omega sixteen' end %>" data-hook="checkout_form_wrapper">
+
+  <%= render :partial => 'spree/shared/error_messages', :locals => { :target => order } %>
+
+  <%= form_for order, :url => update_checkout_path(state), :remote => (state != 'confirm'), :html => { :id => "checkout_form_#{state}" } do |form| %>
+    <% unless order.email? %>
+      <p class="field" style='clear: both'>
+        <%= form.label :email %><br />
+        <%= form.text_field :email %>
+      </p>
+    <% end %>
+
+    <%= render state, :form => form %>
+  <% end %>
+</div>
+<% if state != 'confirm' %>
+  <div id="checkout-summary" data-hook="checkout_summary_box" class="columns omega four">
+    <%= render :partial => 'summary', :locals => { :order => order } %>
+  </div>
+<% end %>

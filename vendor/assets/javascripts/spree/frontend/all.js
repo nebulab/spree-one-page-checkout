@@ -8,5 +8,6 @@
 //= require jquery_ujs
 
 //= require spree/frontend
+//= require spree/frontend/one_page_checkout
 
 //= require_tree .

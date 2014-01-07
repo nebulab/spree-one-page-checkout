@@ -1,0 +1,16 @@
+<div id="checkout" data-hook>
+  <% @order.checkout_steps[0...-1].each do |state| %>
+    <div class="row checkout_content <%= 'disabled-step' if state != @order.state %>" data-step="<%= state %>"data-hook="checkout_content" id="checkout_<%= state %>">
+      <%= render :partial => 'form_wrapper', :locals => { :order => @order, :state => state } %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+Spree.current_order_id = "<%= @order.number %>"
+Spree.current_order_token = "<%= @order.token %>"
+</script>
+
+<% if I18n.locale != :en %>
+  <script src='/assets/jquery.validate/localization/messages_<%= I18n.locale %>.js'></script>
+<% end %>
