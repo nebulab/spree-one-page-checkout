@@ -3,9 +3,8 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
-gem 'spree', '2.1.3'
-#gem 'spree', :github => 'spree/spree'
-gem 'spree_auth_devise', :github => "spree/spree_auth_devise", :branch => "2-1-stable"
+gem 'spree', :github => 'spree/spree', :branch => "master"
+gem 'spree_auth_devise', :github => "spree/spree_auth_devise", :branch => "master"
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
