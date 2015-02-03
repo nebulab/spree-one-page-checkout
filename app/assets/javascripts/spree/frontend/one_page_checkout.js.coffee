@@ -6,7 +6,7 @@ window.replace_checkout_step = (step, partial, error) ->
 
 enable_step = (element) ->
   element.removeClass("disabled-step")
-  element.find("form input").removeAttr("disabled")
+  $(":input", element).attr("disabled", false)
   element.find("#checkout-summary, .errorExplanation").show()
   # Call Spree step specific javascript
   Spree.onAddress() if element.data('step') == 'address'
@@ -15,9 +15,9 @@ enable_step = (element) ->
 disable_steps = (all) ->
   elements = if all? then ($ ".checkout_content") else ($ ".checkout_content.disabled-step")
   elements.addClass("disabled-step")
-  elements.find("form input").attr("disabled", "disabled")
+  $(":input", elements).attr("disabled", true)
   elements.find("#checkout-summary, .errorExplanation").hide()
 
-$ ->
+Spree.ready ($) ->
   if ($ '#checkout').is('*')
     disable_steps()
